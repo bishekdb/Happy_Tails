@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+
+<head th:replace="fragments/layout :: head('Browse Pets')">
+    <title>Browse Pets - Happy Tails</title>
+</head>
+
+<body class="d-flex flex-column min-vh-100">
+    <!-- Navigation -->
+    <nav th:replace="fragments/layout :: navbar"></nav>
+
+    <!-- Main Content -->
+    <main class="flex-shrink-0">
+        <!-- Pet Browsing Section - Moved to the top -->
+        <div class="container py-5">
+            <h1 class="mb-4 fs-1 fw-bold">Browse Pets</h1>
+            
+            <div th:if="${successMessage}" class="alert alert-success">
+                <span th:text="${successMessage}"></span>
+            </div>
+            
+            <div th:if="${errorMessage}" class="alert alert-danger">
+                <span th:text="${errorMessage}"></span>
+            </div>
+            
+            <div class="mb-4 d-flex justify-content-between align-items-center">
+                <span sec:authorize="isAuthenticated()">
+                    <a th:href="@{/profile}" class="btn btn-outline-secondary">
+                        <i class="bi bi-gear me-1"></i>Manage My Pets
+                    </a>
+                </span>
+                <span sec:authorize="isAuthenticated()">
+                    <a th:href="@{/pets/add}" class="btn btn-primary">
+                        <i class="bi bi-plus-circle me-1"></i>Add Your Pet
+                    </a>
+                </span>
+            </div>
+            
+            <div class="row g-4" th:if="${not #lists.isEmpty(pets)}">
+                <div class="col-md-4 mb-4" th:each="pet : ${pets}">
+                    <div class="card h-100 shadow-sm">
+                        <img th:src="@{'/uploads/' + ${pet.imageUrl}}" class="card-img-top" alt="Pet Image" 
+                            style="height: 220px; object-fit: cover;"
+                            onerror="this.src='/images/pet-placeholder.svg'; this.onerror='';">
+                        <div class="card-body">
+                            <div class="d-flex justify-content-between align-items-center mb-2">
+                                <h5 class="card-title mb-0" th:text="${pet.name}">Pet Name</h5>
+                                <span class="badge bg-primary rounded-pill" th:text="${pet.gender}">Gender</span>
+                            </div>
+                            <p class="card-text">
+                                <i class="bi bi-tag me-1 text-muted"></i><span th:text="${pet.breed}">Breed</span><br>
+                                <i class="bi bi-calendar3 me-1 text-muted"></i><span th:text="${pet.age} + ' years'">Age</span><br>
+                                <i class="bi bi-person me-1 text-muted"></i><span th:text="${pet.owner.username}">Owner</span>
+                            </p>
+                            <div class="mt-3 text-center">
+                                <style>
+                                    .view-profile-btn {
+                                        background-color: #7269f0;
+                                        color: white;
+                                        font-weight: 600;
+                                        padding: 0.6rem 1rem;
+                                        border-radius: 50px;
+                                        border: none;
+                                        box-shadow: 0 4px 10px rgba(114, 105, 240, 0.4);
+                                        transition: all 0.3s ease;
+                                        position: relative;
+                                        overflow: hidden;
+                                    }
+                                    .view-profile-btn:hover {
+                                        background-color: #615bd6;
+                                        color: white;
+                                        transform: translateY(-3px);
+                                        box-shadow: 0 6px 15px rgba(114, 105, 240, 0.5);
+                                    }
+                                    .view-profile-btn:before {
+                                        content: "";
+                                        position: absolute;
+                                        top: 0;
+                                        left: -100%;
+                                        width: 100%;
+                                        height: 100%;
+                                        background: linear-gradient(
+                                            90deg,
+                                            transparent,
+                                            rgba(255, 255, 255, 0.2),
+                                            transparent
+                                        );
+                                        transition: 0.5s;
+                                    }
+                                    .view-profile-btn:hover:before {
+                                        left: 100%;
+                                    }
+                                </style>
+                                <a th:href="@{/pets/{id}(id=${pet.id})}" class="btn view-profile-btn w-100">
+                                    <i class="bi bi-eye me-2"></i>View Profile
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="alert alert-info" th:if="${#lists.isEmpty(pets)}">
+                <i class="bi bi-info-circle me-2"></i>No pets found. Be the first to add a pet!
+            </div>
+        </div>
+
+        <!-- Service Section - Moved below pets -->
+        <div class="bg-light py-5 mt-4">
+            <div class="container">
+                <h2 class="text-center mb-5">Our Pet Services</h2>
+                <div class="row g-4">
+                    <div class="col-md-4">
+                        <div class="card h-100 border-0 bg-transparent">
+                            <div class="card-body text-center">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="80" height="80" viewBox="0 0 24 24" fill="none" stroke="#6c63ff" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" class="mb-4">
+                                    <path d="M10 5.172C10 3.12 8.21 1.5 6 1.5S2 3.12 2 5.172c0 1.91 1.5 3.432 2.5 4.535M14 5.172c0-2.052 1.79-3.672 4-3.672s4 1.62 4 3.672c0 1.91-1.5 3.432-2.5 4.535M19.5 15c0 3.59-3.36 6.5-7.5 6.5S4.5 18.59 4.5 15c0-3.08 2.75-5.64 6.3-6.32.7-.13 1.7-.13 2.4 0 3.55.68 6.3 3.24 6.3 6.32Z"/>
+                                    <path d="M10.3 15.1a.8.8 0 0 1 1.4 0l.74 1.5c.08.17.24.3.43.34l1.65.24c.66.09.92.9.44 1.36l-1.2 1.17a.8.8 0 0 0-.23.7l.28 1.65c.11.65-.57 1.15-1.15.84L11.32 22a.8.8 0 0 0-.74 0l-1.48.78c-.58.3-1.26-.2-1.15-.84l.28-1.65a.8.8 0 0 0-.23-.7l-1.2-1.17c-.48-.46-.22-1.27.44-1.36l1.65-.24a.8.8 0 0 0 .43-.34l.98-1.38Z"/>
+                                </svg>
+                                <h5 class="card-title">Pet Care</h5>
+                                <p class="card-text">Professional pet care services for your furry friends.</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="card h-100 border-0 bg-transparent">
+                            <div class="card-body text-center">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="80" height="80" viewBox="0 0 24 24" fill="none" stroke="#6c63ff" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" class="mb-4">
+                                    <path d="M8 3 6 10l7 4 7-4-2-7H8zM11.9 7.2l1.1-2.2M15.9 7l.64-2.2"/>
+                                    <path d="M9 13.9 3 18l2 4h14l2-4-6-4.1"/>
+                                </svg>
+                                <h5 class="card-title">Pet Grooming</h5>
+                                <p class="card-text">Grooming services to keep your pets looking their best.</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="card h-100 border-0 bg-transparent">
+                            <div class="card-body text-center">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="80" height="80" viewBox="0 0 24 24" fill="none" stroke="#6c63ff" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" class="mb-4">
+                                    <path d="M19 11.5c0 5.25-7 9.5-7 9.5s-7-4.25-7-9.5a7 7 0 0 1 14 0Z"/>
+                                    <path d="M12 11.5v-2M10 9.5h4"/>
+                                    <circle cx="12" cy="7.5" r="1"/>
+                                </svg>
+                                <h5 class="card-title">Pet Veterinary</h5>
+                                <p class="card-text">Professional veterinary care for when your pets need medical attention.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <!-- Footer -->
+    <footer th:replace="fragments/layout :: footer"></footer>
+
+    <!-- Scripts -->
+    <div th:replace="fragments/layout :: scripts"></div>
+</body>
+
+</html> 

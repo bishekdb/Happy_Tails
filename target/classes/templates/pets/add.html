@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+
+<head th:replace="fragments/layout :: head('Add Pet')">
+    <title>Add Pet - Happy Tails</title>
+</head>
+
+<body class="d-flex flex-column min-vh-100">
+    <!-- Navigation -->
+    <nav th:replace="fragments/layout :: navbar"></nav>
+
+    <!-- Main Content -->
+    <main class="flex-shrink-0">
+        <div class="container py-5">
+            <div class="row">
+                <div class="col-md-8 offset-md-2">
+                    <div class="card shadow-sm">
+                        <div class="card-header bg-primary text-white">
+                            <h3 class="m-0">Add Your Pet</h3>
+                        </div>
+                        <div class="card-body">
+                            <form th:action="@{/pets/add}" th:object="${pet}" method="post" enctype="multipart/form-data">
+                                <div class="mb-3">
+                                    <label for="name" class="form-label">Pet Name</label>
+                                    <input type="text" class="form-control" id="name" th:field="*{name}" required>
+                                    <div class="text-danger" th:if="${#fields.hasErrors('name')}" th:errors="*{name}"></div>
+                                </div>
+                                
+                                <div class="mb-3">
+                                    <label for="gender" class="form-label">Gender</label>
+                                    <select class="form-select" id="gender" th:field="*{gender}" required>
+                                        <option value="">Select Gender</option>
+                                        <option value="Male">Male</option>
+                                        <option value="Female">Female</option>
+                                    </select>
+                                    <div class="text-danger" th:if="${#fields.hasErrors('gender')}" th:errors="*{gender}"></div>
+                                </div>
+                                
+                                <div class="mb-3">
+                                    <label for="age" class="form-label">Age (in years)</label>
+                                    <input type="number" class="form-control" id="age" th:field="*{age}" min="0" required>
+                                    <div class="text-danger" th:if="${#fields.hasErrors('age')}" th:errors="*{age}"></div>
+                                </div>
+                                
+                                <div class="mb-3">
+                                    <label for="breed" class="form-label">Breed</label>
+                                    <input type="text" class="form-control" id="breed" th:field="*{breed}" required>
+                                    <div class="text-danger" th:if="${#fields.hasErrors('breed')}" th:errors="*{breed}"></div>
+                                </div>
+                                
+                                <div class="mb-3">
+                                    <label for="image" class="form-label">Pet Image</label>
+                                    <input type="file" class="form-control" id="image" name="image" th:field="*{image}" accept="image/png, image/jpeg" required>
+                                    <div class="text-danger" th:if="${#fields.hasErrors('image')}" th:errors="*{image}"></div>
+                                    <div class="form-text">Upload a JPEG or PNG image of your pet.</div>
+                                </div>
+                                
+                                <div class="d-grid gap-2">
+                                    <button type="submit" class="btn btn-primary">Submit</button>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <!-- Footer -->
+    <footer th:replace="fragments/layout :: footer"></footer>
+
+    <!-- Scripts -->
+    <div th:replace="fragments/layout :: scripts"></div>
+</body>
+
+</html> 

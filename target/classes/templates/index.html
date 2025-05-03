@@ -1,0 +1,247 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+
+<head th:replace="fragments/layout :: head('Home')">
+    <title>Home - Happy Tails</title>
+</head>
+
+<body class="d-flex flex-column min-vh-100 paw-cursor">
+    <!-- Navigation -->
+    <nav th:replace="fragments/layout :: navbar"></nav>
+
+    <!-- Main Content -->
+    <main class="flex-shrink-0">
+        <!-- Hero Section -->
+        <section class="hero-overlay-section position-relative d-flex align-items-center justify-content-center">
+            <div class="hero-background"></div>
+            <div class="container">
+                <div class="row align-items-center justify-content-center">
+                    <div class="col-lg-8 col-md-10 text-center hero-text">
+                        <h1 class="fw-bold mb-3">Welcome to <span style="color: #aeaaed;">Happy Tails</span></h1>
+                        <p class="lead">Find your perfect furry companion and bring joy to your home</p>
+                        <div class="mt-5 d-flex flex-wrap justify-content-center gap-3">
+                            <style>
+                                .hero-btn {
+                                    padding: 0.75rem 2rem;
+                                    border-radius: 50px;
+                                    font-weight: 600;
+                                    transition: all 0.4s ease !important;
+                                }
+                                .browse-btn {
+                                    background-color: #7269f0;
+                                    color: white;
+                                    border-color: #7269f0;
+                                    box-shadow: 0 4px 6px rgba(114, 105, 240, 0.3);
+                                }
+                                .browse-btn:hover {
+                                    background-color: #615bd6;
+                                    color: white;
+                                    transform: translateY(-5px);
+                                    box-shadow: 0 8px 15px rgba(114, 105, 240, 0.4);
+                                }
+                                .learn-btn {
+                                    background-color: transparent;
+                                    border: 2px solid white;
+                                    color: white;
+                                }
+                                .learn-btn:hover {
+                                    background-color: rgba(255, 255, 255, 0.2);
+                                    color: white;
+                                    transform: translateY(-5px);
+                                    box-shadow: 0 8px 15px rgba(255, 255, 255, 0.3);
+                                }
+                            </style>
+                            <a th:href="@{/pets}" class="btn btn-lg hero-btn browse-btn">Browse Pets</a>
+                            <a th:href="@{/about}" class="btn btn-lg hero-btn learn-btn">Learn More</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- About Happy Tails Section -->
+        <section class="py-5" style="background-color: #f0f2ff; margin: 20px 0; border-radius: 10px; box-shadow: 0 4px 8px rgba(0,0,0,0.05);">
+            <div class="container">
+                <h2 class="text-center mb-5">About <span style="color: #8b84f7;">Happy Tails</span></h2>
+                <div class="row mb-4">
+                    <div class="col-12">
+                        <p class="text-center lead" style="text-align: justify; text-justify: inter-word;">
+                            Happy Tails is a pet adoption platform dedicated to creating lifelong bonds between rescued animals and loving families. We go beyond simple adoptions by meticulously vetting every pet—ensuring up-to-date health records, temperament assessments, and personalized matching to fit your lifestyle. Our commitment doesn't end at adoption; we offer post-adoption support, including training resources and community forums, to help every pet thrive in their new home. Whether you're seeking a playful pup, a cuddly cat, or a tiny floof like our Holland Lop bunnies, Happy Tails makes the journey safe, transparent, and full of joy.
+                        </p>
+                    </div>
+                </div>
+                <div class="row g-4">
+                    <div class="col-md-4">
+                        <div class="card h-100 border-0">
+                            <div class="card-body text-center p-4">
+                                <div style="width: 60px; height: 60px; background-color: #7269f0; color: white; border-radius: 50%; display: flex; align-items: center; justify-content: center; margin: 0 auto; font-size: 24px;">
+                                    <i class="bi bi-heart-fill"></i>
+                                </div>
+                                <h5 class="card-title mt-3">Loving Matches</h5>
+                                <p class="card-text">We carefully match pets with the perfect homes to ensure happy lives for both.</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="card h-100 border-0">
+                            <div class="card-body text-center p-4">
+                                <div style="width: 60px; height: 60px; background-color: #7269f0; color: white; border-radius: 50%; display: flex; align-items: center; justify-content: center; margin: 0 auto; font-size: 24px;">
+                                    <i class="bi bi-shield-check"></i>
+                                </div>
+                                <h5 class="card-title mt-3">Verified Listings</h5>
+                                <p class="card-text">All our pets are verified and come with complete health records and history.</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="card h-100 border-0">
+                            <div class="card-body text-center p-4">
+                                <div style="width: 60px; height: 60px; background-color: #7269f0; color: white; border-radius: 50%; display: flex; align-items: center; justify-content: center; margin: 0 auto; font-size: 24px;">
+                                    <i class="bi bi-people-fill"></i>
+                                </div>
+                                <h5 class="card-title mt-3">Community Support</h5>
+                                <p class="card-text">Join our community of pet lovers for ongoing support and advice.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Latest Pets Section -->
+        <section class="py-5">
+            <div class="container">
+                <h2 class="text-center mb-5">Meet Our <span style="color: #7269f0;">Latest Pets</span></h2>
+                
+                <!-- Dynamic Latest Pets from Database -->
+                <div class="row g-4">
+                    <div th:each="pet : ${latestPets}" class="col-md-4">
+                        <div class="card h-100 shadow-sm position-relative">
+                            <!-- "New" badge for pets added in the last 24 hours -->
+                            <div th:if="${#vars['isNew_' + pet.id]}" class="position-absolute badge bg-danger" style="top: 10px; right: 10px; z-index: 10;">
+                                <i class="bi bi-stars"></i> New
+                            </div>
+                            <img th:src="@{'/uploads/' + ${pet.imageUrl}}" class="card-img-top" th:alt="${pet.name}" 
+                                style="height: 250px; object-fit: cover;" 
+                                onerror="this.src='/images/pet-placeholder.svg'; this.onerror='';">
+                            <div class="card-body p-4">
+                                <div class="d-flex justify-content-between align-items-center mb-2">
+                                    <h5 class="card-title mb-0" th:text="${pet.name}">Pet Name</h5>
+                                    <span class="badge bg-primary rounded-pill" th:text="${pet.breed}">Breed</span>
+                                </div>
+                                <p class="card-text">
+                                    <i class="bi bi-tag me-1 text-muted"></i><span th:text="${pet.breed}">Breed</span><br>
+                                    <i class="bi bi-calendar3 me-1 text-muted"></i><span th:text="${pet.age + ' year' + (pet.age != 1 ? 's' : '')}">Age</span><br>
+                                    <i class="bi bi-gender-ambiguous me-1 text-muted"></i><span th:text="${pet.gender}">Gender</span>
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Message when no pets are available -->
+                    <div th:if="${#lists.isEmpty(latestPets)}" class="col-12 text-center">
+                        <div class="alert alert-info">
+                            <i class="bi bi-info-circle me-2"></i>No pets have been added yet.
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="text-center mt-5">
+                    <style>
+                        .view-all-btn {
+                            background-color: #7269f0;
+                            color: white;
+                            font-weight: 600;
+                            padding: 0.75rem 2.5rem;
+                            border-radius: 50px;
+                            border: none;
+                            box-shadow: 0 4px 10px rgba(114, 105, 240, 0.4);
+                            transition: all 0.4s ease;
+                            font-size: 1.1rem;
+                            letter-spacing: 0.5px;
+                            position: relative;
+                            overflow: hidden;
+                        }
+                        .view-all-btn:hover {
+                            background-color: #615bd6;
+                            color: white;
+                            transform: translateY(-5px);
+                            box-shadow: 0 8px 15px rgba(114, 105, 240, 0.5);
+                        }
+                        .view-all-btn:before {
+                            content: "";
+                            position: absolute;
+                            top: 0;
+                            left: -100%;
+                            width: 100%;
+                            height: 100%;
+                            background: linear-gradient(
+                                90deg,
+                                transparent,
+                                rgba(255, 255, 255, 0.2),
+                                transparent
+                            );
+                            transition: 0.5s;
+                        }
+                        .view-all-btn:hover:before {
+                            left: 100%;
+                        }
+                    </style>
+                    <a th:href="@{/pets}" class="btn view-all-btn">
+                        <i class="bi bi-grid-3x3-gap-fill me-2"></i>View All Pets
+                    </a>
+                </div>
+            </div>
+        </section>
+        
+        <!-- Why Choose Happy Tails Section -->
+        <section class="py-5" style="background-color: #f0f2ff; margin: 20px 0; border-radius: 10px; box-shadow: 0 4px 8px rgba(0,0,0,0.05);">
+            <div class="container">
+                <h2 class="text-center mb-5">Why Choose <span style="color: #7269f0;">Happy Tails</span>?</h2>
+                <div class="row">
+                    <div class="col-md-4">
+                        <div class="d-flex align-items-start mb-4">
+                            <div class="flex-shrink-0" style="width: 40px; height: 40px; background-color: #7269f0; color: white; border-radius: 50%; display: flex; align-items: center; justify-content: center; margin-right: 15px; font-size: 18px;">
+                                <i class="bi bi-check-lg"></i>
+                            </div>
+                            <div>
+                                <h5>Trusted by Thousands</h5>
+                                <p>Over 5,000 happy families have found their perfect pet companions through our platform.</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="d-flex align-items-start mb-4">
+                            <div class="flex-shrink-0" style="width: 40px; height: 40px; background-color: #7269f0; color: white; border-radius: 50%; display: flex; align-items: center; justify-content: center; margin-right: 15px; font-size: 18px;">
+                                <i class="bi bi-award"></i>
+                            </div>
+                            <div>
+                                <h5>Expert Guidance</h5>
+                                <p>Our team of pet experts helps guide you through every step of the adoption process.</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="d-flex align-items-start mb-4">
+                            <div class="flex-shrink-0" style="width: 40px; height: 40px; background-color: #7269f0; color: white; border-radius: 50%; display: flex; align-items: center; justify-content: center; margin-right: 15px; font-size: 18px;">
+                                <i class="bi bi-heart"></i>
+                            </div>
+                            <div>
+                                <h5>Aftercare Support</h5>
+                                <p>Our community continues to offer support and resources long after you bring your pet home.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- Footer -->
+    <footer th:replace="fragments/layout :: footer"></footer>
+
+    <!-- Scripts -->
+    <div th:replace="fragments/layout :: scripts"></div>
+</body>
+
+</html> 
