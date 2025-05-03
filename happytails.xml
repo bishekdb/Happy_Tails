@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<launch4jConfig>
+  <dontWrapJar>false</dontWrapJar>
+  <headerType>gui</headerType>
+  <jar>target/website-0.0.1-SNAPSHOT.jar</jar>
+  <outfile>HappyTails.exe</outfile>
+  <errTitle>Happy Tails</errTitle>
+  <cmdLine></cmdLine>
+  <chdir>.</chdir>
+  <priority>normal</priority>
+  <downloadUrl>https://java.com/download</downloadUrl>
+  <supportUrl></supportUrl>
+  <stayAlive>false</stayAlive>
+  <restartOnCrash>false</restartOnCrash>
+  <manifest></manifest>
+  <icon></icon>
+  <jre>
+    <path></path>
+    <bundledJre64Bit>false</bundledJre64Bit>
+    <bundledJreAsFallback>false</bundledJreAsFallback>
+    <minVersion>11.0.0</minVersion>
+    <maxVersion></maxVersion>
+    <jdkPreference>preferJre</jdkPreference>
+    <runtimeBits>64/32</runtimeBits>
+    <initialHeapSize>256</initialHeapSize>
+    <maxHeapSize>1024</maxHeapSize>
+    <opt>-Dfile.encoding=UTF-8</opt>
+  </jre>
+  <splash>
+    <file></file>
+    <waitForWindow>true</waitForWindow>
+    <timeout>60</timeout>
+    <timeoutErr>true</timeoutErr>
+  </splash>
+  <versionInfo>
+    <fileVersion>0.0.1.0</fileVersion>
+    <txtFileVersion>0.0.1</txtFileVersion>
+    <fileDescription>Happy Tails Pet Website</fileDescription>
+    <copyright>Happy Tails</copyright>
+    <productVersion>0.0.1.0</productVersion>
+    <txtProductVersion>0.0.1</txtProductVersion>
+    <productName>Happy Tails</productName>
+    <companyName>Happy Tails</companyName>
+    <internalName>HappyTails</internalName>
+    <originalFilename>HappyTails.exe</originalFilename>
+  </versionInfo>
+</launch4jConfig> 
