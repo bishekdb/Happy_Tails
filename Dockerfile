@@ -9,8 +9,10 @@ COPY mvnw* ./
 COPY .mvn .mvn
 COPY pom.xml ./
 
-# Make Maven wrapper executable
-RUN chmod +x ./mvnw
+# Make Maven wrapper executable and install required packages
+RUN apt-get update && apt-get install -y dos2unix && \
+    dos2unix ./mvnw && \
+    chmod +x ./mvnw
 
 # Download dependencies (this layer will be cached if pom.xml doesn't change)
 RUN ./mvnw dependency:go-offline -B
