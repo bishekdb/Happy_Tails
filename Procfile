@@ -1,1 +1,0 @@
-web: java -Dspring.profiles.active=railway -jar target/website-0.0.1-SNAPSHOT.jar
