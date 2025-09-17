@@ -1,30 +1,32 @@
-# Use OpenJDK 17 as base image
-FROM openjdk:17-jdk-slim
+# Use Maven image to build, then OpenJDK to run
+FROM maven:3.8.4-openjdk-17 AS build
 
 # Set working directory
 WORKDIR /app
 
-# Copy Maven wrapper and pom.xml first (for better caching)
-COPY mvnw* ./
-COPY .mvn .mvn
+# Copy pom.xml first (for better caching)
 COPY pom.xml ./
 
-# Make Maven wrapper executable and install required packages
-RUN apt-get update && apt-get install -y dos2unix && \
-    dos2unix ./mvnw && \
-    chmod +x ./mvnw
-
-# Download dependencies (this layer will be cached if pom.xml doesn't change)
-RUN ./mvnw dependency:go-offline -B
+# Download dependencies
+RUN mvn dependency:go-offline -B
 
 # Copy source code
 COPY src ./src
 
 # Build the application
-RUN ./mvnw clean package -DskipTests
+RUN mvn clean package -DskipTests
+
+# Use OpenJDK for runtime
+FROM openjdk:17-jdk-slim
+
+# Set working directory
+WORKDIR /app
+
+# Copy the JAR from build stage
+COPY --from=build /app/target/website-0.0.1-SNAPSHOT.jar app.jar
 
 # Expose port 8080
 EXPOSE 8080
 
 # Run the application
-CMD ["java", "-jar", "target/website-0.0.1-SNAPSHOT.jar"]
+CMD ["java", "-jar", "app.jar"]
