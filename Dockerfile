@@ -1,5 +1,5 @@
 # Use Maven image to build, then OpenJDK to run
-FROM maven:3.8.4-openjdk-17 AS build
+FROM maven:3.9.4-openjdk-21 AS build
 
 # Set working directory
 WORKDIR /app
@@ -17,7 +17,7 @@ COPY src ./src
 RUN mvn clean package -DskipTests
 
 # Use OpenJDK for runtime
-FROM openjdk:17-jdk-slim
+FROM openjdk:21-jdk-slim
 
 # Set working directory
 WORKDIR /app
