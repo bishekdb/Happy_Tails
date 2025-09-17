@@ -1,5 +1,5 @@
 # Use Maven image to build, then OpenJDK to run
-FROM maven:3.9.4-eclipse-temurin-21 AS build
+FROM maven:3.9.5-eclipse-temurin-21 AS build
 
 # Set working directory
 WORKDIR /app
@@ -17,7 +17,7 @@ COPY src ./src
 RUN mvn clean package -DskipTests
 
 # Use OpenJDK for runtime
-FROM eclipse-temurin:21-jre-alpine
+FROM eclipse-temurin:21-jre
 
 # Set working directory
 WORKDIR /app
